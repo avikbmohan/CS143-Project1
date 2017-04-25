@@ -32,14 +32,14 @@
          echo "<tr>";
          for($i=0; $i < $num; $i++){
            $fetched = mysql_field_name($res, $i);
-	   echo "<th>"; echo $fetched; echo "</th>";
+	   echo "<th>"; echo mysql_field_name($res, $i); echo "</th>";
 	 }
 	 echo "</tr>";
 		       
 	 while($row = mysql_fetch_row($res)){
 	   echo "<tr>";
-	   for($j = 0; $j < $num; $j++){
-	     echo "<td>" . $row[j] . "</td>";
+	   for($i = 0; $i < $num; $i++){
+	     echo "<td>" . $row[$i] . "</td>";
 	   }
 	   echo "</tr>";
 	 }
