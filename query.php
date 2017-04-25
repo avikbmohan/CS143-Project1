@@ -17,21 +17,22 @@
     <?php
        //$cxn is for "Connection"
        $cxn = mysql_connect("localhost", "cs143", "");
- //      if(!#cxn){
- //        $err = mysql_error($cxn);
- //        print("Error: $err");
- //        exit(1);
- //      }
+       if(!$cxn){
+         $err = mysql_error($cxn);
+         print("Error: $err");
+         exit(1);
+       }
        mysql_select_db("CS143", $cxn);
        $query = $_GET["query"];
        if($query){
+         echo "Retrieving Data...";
          $res = mysql_query($query, $cxn);
          $num = mysql_num_fields($res);
          echo "<table border='1'>";
          echo "<tr>";
          for($i=0; $i < $num; $i++){
-	   $fetchedName = mysql_field_name($res, $i);
-	   echo "<th>"; echo $fetchedName; echo "</th>";
+           $fetched = mysql_field_name($res, $i);
+	   echo "<th>"; echo $fetched; echo "</th>";
 	 }
 	 echo "</tr>";
 		       
@@ -48,3 +49,4 @@
     ?>  
 </body>
 </html>
+
