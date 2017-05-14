@@ -4,6 +4,22 @@
     <title>
       View Movie
     </title>
+	<script>
+		function checkInput() {
+			var name = document.getElementById('name');
+			var comment = document.getElementById('comment');
+			var alertString = "";
+			if(name && name.value && comment && comment.value)
+				return true;
+			else
+				if(!name || !name.value)
+					alertString += "Please include your name.\n";
+				if(!comment || !comment.value)
+					alertString += "Please inlude a comment.\n";
+				alert(alertString);
+				return false;
+		}
+	</script>
   </head>
   <body style="background-color:powderblue;">
     <h4 style="font-family:courier;"><a href='main.php'>Go Back to Main Page</a></h4>    
@@ -104,6 +120,8 @@
        }		 
         echo "</table>";
        }
+	   
+	   
 
       $reviewsQuery = "SELECT DISTINCT * FROM Review r LEFT JOIN Movie m ON r.mmid = m.id WHERE m.id=".$id;
        $res2 = mysql_query($reviewsQuery, $cxn);
@@ -131,7 +149,47 @@
        }
 
        mysql_close($cxn);
-    ?> 
+    ?>
+	<h4>Add a comment</h4>
+		<form method="GET" onsubmit="return checkInput();">
+			Name:<br>
+			<input type="text" name="name" id="name" size=20 maxlength=20><br><br>Score:<br>
+			<select name="score">
+			<option>1
+			<option>2
+			<option>3
+			<option>4
+			<option>5
+			</select><br><br>Comment:<br>
+			<textarea name="comment" id="comment" rows=6 cols=50></textarea>
+			<br><br>
+			<input type="submit" value="Submit">
+			<?php
+				$id = $_GET['id'];
+				echo "<input type=\"hidden\" name=\"id\" value=\"" . $id . "\">";
+			?>
+	
+		</form>
+	<?php
+		$cxn = mysql_connect("localhost", "cs143", "");
+		if(!$cxn){
+			$err = mysql_error($cxn);
+			print("Error: $err");
+			exit(1);
+		}
+		mysql_select_db("CS143", $cxn);
+		
+		$name = $_GET['name'];
+		$score = $_GET['score'];
+		$id = $_GET['id'];
+		$comment = $_GET['comment'];
+		if ($name && $comment) {
+			$query = "INSERT INTO Review VALUES ('" . $name . "', NOW(), '" . $id . "', '" . $score . "', '" . $comment . "')";
+			$rs = mysql_query($query, $cxn);
+		}
+		mysql_close($cxn);
+			
+	?>
 
 </body>
 </html>
