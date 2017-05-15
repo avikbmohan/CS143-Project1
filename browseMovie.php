@@ -10,7 +10,9 @@
     <h4 style="font-family:courier;"><a href='search.php'>Go to Search Page</a></h4>    
     <h1 style="font-family:courier;">Movies:</h1>
     <h3 style="font-family:courier;">Sorted by Title</h3>
+
 <!---The paging mechanism below borrows from phpjabbers.com "PHP/MySQL Select Data and Split on Pages"--->
+
     <?php
        session_start();
        $cxn = mysql_connect("localhost", "cs143", "");
@@ -40,9 +42,10 @@
 
        echo "<table border='1', cellpadding=4>";
        echo "<tr>";
-       for($i=0; $i < $num; $i++){
+       echo "<th> Movie ID </th>";
+       for($i=1; $i < $num; $i++){
            $fetched = mysql_field_name($res, $i);
-	   echo "<th>"; echo mysql_field_name($res, $i); echo "</th>";
+	   echo "<th>"; echo ucfirst(mysql_field_name($res, $i)); echo "</th>";
        }
        echo "<th> Link to Info </th>";
        echo "</tr>";

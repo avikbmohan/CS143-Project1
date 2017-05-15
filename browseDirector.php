@@ -10,13 +10,9 @@
     <h4 style="font-family:courier;"><a href='search.php?type=Director'>Search Directors</a></h4>    
     <h1 style="font-family:courier;">Directors:</h1>
     <h3 style="font-family:courier;">Sorted by ID/Last Name</h3>
-<!--- I know this looks bad but I couldnt figure out the spacing otherwise--->
     <form action="browseDirector.php" method="get">
 
-<!---The paging mechanism below borrows from phpjabbers.com "PHP/MySQL Select Data and Split on Pages"--->
     <?php
-       session_start();
-       //$cxn is for "Connection"
        $cxn = mysql_connect("localhost", "cs143", "");
        if(!$cxn){
          $err = mysql_error($cxn);
@@ -45,9 +41,10 @@
        echo "<table border='1', cellpadding=4>";
        echo "<tr>";
        for($i=0; $i < $num; $i++){
-           $fetched = mysql_field_name($res, $i);
+	   if (mysql_field_name($res, $i)[0] =='d'){
+             	   echo "<th>"; echo strtoupper(mysql_field_name($res, $i)); echo "</th>";} else{
 	   echo "<th>"; echo ucfirst(mysql_field_name($res, $i)); echo "</th>";
-       }
+       }}
        echo "<th> Link to Bio </th>";
        echo "</tr>";
        while($row = mysql_fetch_row($res)){
